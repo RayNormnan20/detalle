@@ -184,28 +184,6 @@ window.addEventListener("resize", () => {
   confettiCanvas.height = window.innerHeight;
 });
 
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
 function initReveal() {
   const reveals = document.querySelectorAll(".reveal");
   const io = new IntersectionObserver((entries) => {
@@ -219,3 +197,86 @@ function initReveal() {
   reveals.forEach(el => io.observe(el));
 }
 document.addEventListener("DOMContentLoaded", initReveal);
+
+// Lightbox Logic
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const lightboxClose = document.getElementById('lightbox-close');
+const lightboxNext = document.getElementById('lightbox-next');
+const lightboxPrev = document.getElementById('lightbox-prev');
+let currentIndex = 0;
+let photos = [];
+
+function openLightbox(index) {
+  const allPhotos = document.querySelectorAll('.photo');
+  photos = Array.from(allPhotos);
+  currentIndex = index;
+  updateLightbox();
+  lightbox.classList.remove('hidden');
+  // Small delay to allow transition
+  requestAnimationFrame(() => {
+    lightbox.classList.add('active');
+  });
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  setTimeout(() => {
+    lightbox.classList.add('hidden');
+  }, 300);
+}
+
+function updateLightbox() {
+  const img = photos[currentIndex];
+  lightboxImg.src = img.src;
+  lightboxCaption.textContent = img.alt;
+}
+
+function nextPhoto() {
+  currentIndex = (currentIndex + 1) % photos.length;
+  updateLightbox();
+}
+
+function prevPhoto() {
+  currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+  updateLightbox();
+}
+
+// Event Listeners for Gallery
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.querySelector('.gallery');
+  gallery.addEventListener('click', (e) => {
+    if (e.target.classList.contains('photo')) {
+      const allPhotos = Array.from(document.querySelectorAll('.photo'));
+      const index = allPhotos.indexOf(e.target);
+      openLightbox(index);
+    }
+  });
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxNext.addEventListener('click', (e) => {
+  e.stopPropagation();
+  nextPhoto();
+});
+lightboxPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  prevPhoto();
+});
+
+// Close on background click
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('hidden')) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextPhoto();
+    if (e.key === 'ArrowLeft') prevPhoto();
+  }
+});
