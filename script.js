@@ -32,9 +32,26 @@ function hideCelebration() {
 }
 
 si.addEventListener("click", () => {
-  showCelebration();
-  galleryUnlocked = true;
-  gallerySection.classList.remove("hidden");
+  startConfetti();
+  
+  // Hide buttons and show message
+  const cta = document.querySelector('.cta');
+  cta.style.display = 'none';
+  
+  const msgDiv = document.createElement('div');
+  msgDiv.innerHTML = `
+    <h3 class="celebration-title" style="margin-top: 20px;">¡Eres lo mejor!</h3>
+    <p class="celebration-text">Prometo hacer de cada día un recuerdo bonito a tu lado. Te amo infinitamente ❤️</p>
+    <button id="btn-recuerdos-inline" class="btn secondary" style="margin-top: 10px;">Ver nuestros momentos</button>
+  `;
+  cta.parentNode.insertBefore(msgDiv, cta.nextSibling);
+
+  // Add listener to the new button
+  document.getElementById("btn-recuerdos-inline").addEventListener("click", () => {
+    galleryUnlocked = true;
+    gallerySection.classList.remove("hidden");
+    gallerySection.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 });
 recuerdos.addEventListener("click", () => {
   gallerySection.classList.remove("hidden");
