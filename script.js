@@ -6,11 +6,20 @@ const confettiCanvas = document.getElementById("confetti");
 const gallerySection = document.querySelector(".gallery-section");
 const titleEl = document.querySelector(".hero .title");
 const subtitleEl = document.querySelector(".hero .subtitle");
-const annivInput = document.getElementById("anniv-date");
-const annivSave = document.getElementById("anniv-save");
-const yearsEl = document.getElementById("years");
-const daysEl = document.getElementById("days");
-const nextDaysEl = document.getElementById("next-days");
+const noHint = document.getElementById("no-hint");
+let noClickCount = 0;
+let galleryUnlocked = false;
+const funnyMessages = [
+  "¿Segura? Piensa otra vez 😉",
+  "Uy… con 'No' no vale 😜",
+  "Mi corazón dice Sí 💘",
+  "Te invito a sonreír conmigo 😊",
+  "Hoy es día de decir Sí ✨",
+  "El destino ya eligió: Sí 💖",
+  "Si pones Sí, hay sorpresa 🎁",
+  "Prometo mil risas si dices Sí 😄",
+  "¿Y si probamos con Sí? 🌟"
+];
 
 function showCelebration() {
   celebration.classList.remove("hidden");
@@ -22,8 +31,13 @@ function hideCelebration() {
   stopConfetti();
 }
 
-si.addEventListener("click", showCelebration);
+si.addEventListener("click", () => {
+  showCelebration();
+  galleryUnlocked = true;
+  gallerySection.classList.remove("hidden");
+});
 recuerdos.addEventListener("click", () => {
+  gallerySection.classList.remove("hidden");
   hideCelebration();
   gallerySection.scrollIntoView({ behavior: "smooth", block: "start" });
 });
@@ -32,15 +46,31 @@ let dodgeCount = 0;
 quizas.addEventListener("mousemove", e => {
   dodgeCount++;
   const rect = quizas.getBoundingClientRect();
-  const x = (Math.random() * 60 - 30);
-  const y = (Math.random() * 40 - 20) - Math.min(dodgeCount * 2, 60);
-  quizas.style.transform = `translate(${x}px, ${y}px)`;
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const dx = e.clientX - cx;
+  const dy = e.clientY - cy;
+  const intensity = Math.min(1 + dodgeCount * 0.15, 3);
+  const moveX = -Math.sign(dx) * (20 + Math.random() * 30) * intensity;
+  const moveY = -Math.sign(dy) * (15 + Math.random() * 25) * intensity;
+  quizas.style.transform = `translate(${moveX}px, ${moveY}px)`;
 });
 quizas.addEventListener("mouseleave", () => {
   quizas.style.transform = "translate(0,0)";
 });
 quizas.addEventListener("click", () => {
-  quizas.textContent = "Mejor sí 💕";
+  noClickCount++;
+  const msg = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+  if (noHint) {
+    noHint.style.opacity = "0";
+    noHint.textContent = msg;
+    requestAnimationFrame(() => {
+      noHint.style.transition = "opacity 0.25s ease";
+      noHint.style.opacity = "1";
+    });
+  }
+  quizas.style.animation = "none";
+  setTimeout(() => { quizas.style.animation = "pulse 0.6s ease"; }, 10);
 });
 
 function parallax(eX, eY) {
@@ -137,56 +167,27 @@ window.addEventListener("resize", () => {
   confettiCanvas.height = window.innerHeight;
 });
 
-function toYMD(date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-function parseInput(val) {
-  const [y, m, d] = val.split("-").map(Number);
-  return new Date(y, m - 1, d, 12);
-}
-function diffYears(from, to) {
-  let years = to.getFullYear() - from.getFullYear();
-  const anniversaryThisYear = new Date(from.getFullYear() + years, from.getMonth(), from.getDate(), 12);
-  if (to < anniversaryThisYear) years--;
-  return Math.max(0, years);
-}
-function daysBetween(from, to) {
-  const msPerDay = 24 * 60 * 60 * 1000;
-  const a = new Date(from.getFullYear(), from.getMonth(), from.getDate(), 12);
-  const b = new Date(to.getFullYear(), to.getMonth(), to.getDate(), 12);
-  return Math.max(0, Math.floor((b - a) / msPerDay));
-}
-function daysUntilNext(from, now) {
-  const years = diffYears(from, now);
-  let next = new Date(from.getFullYear() + years + 1, from.getMonth(), from.getDate(), 12);
-  const msPerDay = 24 * 60 * 60 * 1000;
-  return Math.max(0, Math.ceil((next - now) / msPerDay));
-}
-function updateAnniv() {
-  const val = annivInput.value;
-  if (!val) return;
-  const start = parseInput(val);
-  const now = new Date();
-  yearsEl.textContent = diffYears(start, now).toLocaleString("es-ES");
-  daysEl.textContent = daysBetween(start, now).toLocaleString("es-ES");
-  nextDaysEl.textContent = daysUntilNext(start, now).toLocaleString("es-ES");
-}
-function initAnniv() {
-  const stored = localStorage.getItem("anniversary");
-  const defaultDate = "2023-05-01";
-  annivInput.value = stored || defaultDate;
-  updateAnniv();
-}
-annivSave.addEventListener("click", () => {
-  if (!annivInput.value) return;
-  localStorage.setItem("anniversary", annivInput.value);
-  updateAnniv();
-});
-annivInput.addEventListener("change", updateAnniv);
-document.addEventListener("DOMContentLoaded", initAnniv);
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
 
 function initReveal() {
   const reveals = document.querySelectorAll(".reveal");

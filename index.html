@@ -6,70 +6,58 @@
   <title>¿Quieres ser mi San Valentín?</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Great+Vibes:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="bg-hearts"></div>
   <main>
     <section class="hero reveal">
+      <div class="hero-decoration">✨</div>
       <h1 class="title">¿Quieres ser mi San Valentín?</h1>
-      <p class="subtitle">Mi vida es más bonita contigo. Te invito a celebrar nuestro amor.</p>
+      <p class="subtitle">Mi vida es más bonita contigo. Te invito a celebrar este amor especial juntos.</p>
       <div class="cta">
-        <button id="btn-si" class="btn primary">Sí, quiero</button>
-        <button id="btn-quizas" class="btn ghost">Pensémoslo…</button>
+        <button id="btn-si" class="btn primary">Sí, quiero ❤️</button>
+        <button id="btn-quizas" class="btn ghost">No ❌</button>
       </div>
+      <p id="no-hint" class="hint"></p>
     </section>
-
-    <section class="anniversary">
-      <h2 class="section-title">Nuestro Aniversario</h2>
-      <div class="anniv-card reveal">
-        <div class="anniv-row">
-          <label for="anniv-date" class="anniv-label">Fecha</label>
-          <input id="anniv-date" type="date" class="anniv-input">
-          <button id="anniv-save" class="btn secondary">Guardar</button>
-        </div>
-        <div class="anniv-stats">
-          <div class="stat">
-            <div class="stat-n" id="years">0</div>
-            <div class="stat-l">Años juntos</div>
-          </div>
-          <div class="stat">
-            <div class="stat-n" id="days">0</div>
-            <div class="stat-l">Días compartidos</div>
-          </div>
-          <div class="stat">
-            <div class="stat-n" id="next-days">0</div>
-            <div class="stat-l">Faltan para el próximo</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="gallery-section">
-      <h2 class="section-title">Nuestros Momentos</h2>
+    <section class="gallery-section hidden">
+      <h2 class="section-title">📸 Nuestros Momentos Especiales</h2>
       <div class="gallery">
-        <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Foto 1" class="photo reveal">
-        <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Foto 1" class="photo reveal">
-        <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Foto 1" class="photo reveal">
-        <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Foto 1" class="photo reveal">
-        <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Foto 1" class="photo reveal">
-        <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Foto 1" class="photo reveal">
+        <div class="photo-container">
+          <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Nuestro primer viaje" class="photo reveal">
+        </div>
+        <div class="photo-container">
+          <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Un día especial" class="photo reveal">
+        </div>
+        <div class="photo-container">
+          <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Juntos siempre" class="photo reveal">
+        </div>
+        <div class="photo-container">
+          <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Momentos bonitos" class="photo reveal">
+        </div>
+        <div class="photo-container">
+          <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Nuestras risas" class="photo reveal">
+        </div>
+        <div class="photo-container">
+          <img src="https://res.cloudinary.com/dxlh0n4se/image/upload/v1770486411/qsbvzxmiiyebsqivtzk8_xyvbvh.png" alt="Para siempre" class="photo reveal">
+        </div>
       </div>
     </section>
   </main>
 
   <div id="celebration" class="celebration hidden">
     <div class="celebration-content">
-      <h3 class="celebration-title">Gracias por decir ¡Sí!</h3>
-      <p class="celebration-text">Prometo hacer de cada día un recuerdo bonito. Te amo.</p>
-      <button id="btn-recuerdos" class="btn secondary">Ver recuerdos</button>
+      <h3 class="celebration-title">¡Eres lo mejor!</h3>
+      <p class="celebration-text">Prometo hacer de cada día un recuerdo bonito a tu lado. Te amo infinitamente ❤️</p>
+      <button id="btn-recuerdos" class="btn secondary">Ver nuestros momentos</button>
     </div>
     <canvas id="confetti"></canvas>
   </div>
 
   <footer class="footer">
-    <p>Hecho con amor ❤️</p>
+    <p>Hecho con amor y magia ✨</p>
   </footer>
 
   <script src="script.js"></script>
