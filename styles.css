@@ -29,6 +29,12 @@ body {
     radial-gradient(circle 700px at 50% 0%, rgba(124,58,237,0.08) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
+  animation: bg-shift 15s ease-in-out infinite alternate;
+}
+
+@keyframes bg-shift {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
 }
 
 main { max-width: 1100px; margin: 0 auto; padding: 60px 24px }
@@ -127,45 +133,58 @@ main { max-width: 1100px; margin: 0 auto; padding: 60px 24px }
   background-clip: text;
   color: transparent;
 }
+/* Bento Grid Gallery */
 .gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-auto-rows: 240px;
+  gap: 24px;
+  padding: 20px 0;
 }
+
 .photo-container {
   position: relative;
+  border-radius: 16px;
   overflow: hidden;
-  border-radius: 20px;
-}
-.photo {
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-  border-radius: 20px;
-  background: rgba(124, 58, 237, 0.1);
-  border: 1.5px solid rgba(255, 105, 168, 0.3);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: block;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 4px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.05);
   cursor: pointer;
 }
-.photo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(255,22,84,0.2) 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 1;
-  pointer-events: none;
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  display: block;
 }
-.photo:hover {
-  transform: translateY(-6px) rotateZ(0.5deg) scale(1.02);
-  box-shadow: 0 16px 40px rgba(255, 22, 84, 0.25);
-  border-color: rgba(255, 105, 168, 0.6);
+
+/* Bento Spans */
+.photo-container:nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 2;
 }
-.photo:hover::before { opacity: 1 }
+.photo-container:nth-child(2) {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+.photo-container:nth-child(3) {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+/* Hover Effects */
+.photo-container:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(255, 22, 84, 0.3);
+  z-index: 2;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.photo-container:hover .photo {
+  transform: scale(1.1);
+}
 .hint {
   text-align: center;
   color: var(--muted);
@@ -425,8 +444,6 @@ main { max-width: 1100px; margin: 0 auto; padding: 60px 24px }
 }
 
 @media (max-width: 900px) {
-  .gallery { grid-template-columns: repeat(2, 1fr) }
-  .photo { height: 220px }
   .anniv-stats { grid-template-columns: 1fr }
   .anniv-row { grid-template-columns: 1fr; gap: 10px }
   .stat-emoji { font-size: 24px }
@@ -434,14 +451,59 @@ main { max-width: 1100px; margin: 0 auto; padding: 60px 24px }
 }
 
 @media (max-width: 560px) {
-  .gallery { grid-template-columns: 1fr }
-  .photo { height: 200px }
   .cta { flex-direction: column; gap: 12px }
   .btn { width: 100% }
   .anniv-stats { grid-template-columns: 1fr }
   .anniv-row { grid-template-columns: 1fr }
   .hero { padding: 60px 12px 30px }
-  main { padding: 30px 16px }
+  .title { font-size: clamp(36px, 12vw, 56px); } /* Mejor ajuste de titulo */
+  .subtitle { font-size: 16px; margin-bottom: 24px; }
+  main { padding: 20px 16px; }
+  
+  /* Ajuste de celebración en móvil */
+  .celebration-content {
+    padding: 30px 20px;
+    width: 90vw;
+  }
+  .celebration-title { font-size: 36px; }
+  .celebration-text { font-size: 16px; }
+  
+  /* Ajuste control música */
+  .music-control {
+    bottom: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas */
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+  }
+  .photo-container:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .photo-container:nth-child(3) {
+    grid-column: span 1;
+    grid-row: span 1; /* Reset tall item */
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .photo-container {
+    height: 300px; /* Fixed height for mobile cards */
+    width: 100%;
+  }
 }
 
 /* Lightbox Styles */
@@ -512,11 +574,71 @@ main { max-width: 1100px; margin: 0 auto; padding: 60px 24px }
   cursor: pointer;
   border-radius: 50%;
   transition: all 0.3s;
+cursor: pointer;
   z-index: 101;
 }
 .lightbox-nav:hover { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
 .lightbox-nav.prev { left: 20px; }
 .lightbox-nav.next { right: 20px; }
+
+/* Music Control */
+.music-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 22, 84, 0.8);
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 24px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.music-control:hover {
+  transform: scale(1.1) rotate(10deg);
+  background: rgba(255, 22, 84, 1);
+  box-shadow: 0 8px 24px rgba(255, 22, 84, 0.4);
+}
+
+.music-control.playing {
+  animation: pulse-music 2s infinite;
+}
+
+.music-control.hidden {
+  display: none;
+}
+
+@keyframes pulse-music {
+  0% { box-shadow: 0 0 0 0 rgba(255, 22, 84, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 22, 84, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 22, 84, 0); }
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  margin-top: 40px;
+  font-size: 32px;
+  animation: bounce 2s infinite;
+  opacity: 0.8;
+}
+.scroll-indicator.hidden { display: none; }
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+/* Enhanced Gallery */
+/* Removed duplicated block */
 
 @media (max-width: 600px) {
   .lightbox-nav { padding: 10px; font-size: 24px; }

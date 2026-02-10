@@ -7,6 +7,39 @@ const gallerySection = document.querySelector(".gallery-section");
 const titleEl = document.querySelector(".hero .title");
 const subtitleEl = document.querySelector(".hero .subtitle");
 const noHint = document.getElementById("no-hint");
+const musicControl = document.getElementById('music-control');
+const bgMusic = document.getElementById('bg-music');
+const scrollHint = document.getElementById('scroll-hint');
+let isMusicPlaying = false;
+
+function playMusic() {
+  bgMusic.volume = 0.5;
+  bgMusic.play().then(() => {
+    isMusicPlaying = true;
+    musicControl.classList.remove('hidden');
+    musicControl.classList.add('playing');
+  }).catch(e => {
+    console.log("Audio play failed (user interaction needed):", e);
+    // Show control anyway so user can click it
+    musicControl.classList.remove('hidden');
+  });
+}
+
+function toggleMusic() {
+  if (isMusicPlaying) {
+    bgMusic.pause();
+    musicControl.classList.remove('playing');
+    musicControl.innerHTML = '<span class="music-icon">🔇</span>';
+  } else {
+    bgMusic.play();
+    musicControl.classList.add('playing');
+    musicControl.innerHTML = '<span class="music-icon">🎵</span>';
+  }
+  isMusicPlaying = !isMusicPlaying;
+}
+
+musicControl.addEventListener('click', toggleMusic);
+
 let noClickCount = 0;
 let galleryUnlocked = false;
 const funnyMessages = [
@@ -31,32 +64,30 @@ function hideCelebration() {
   stopConfetti();
 }
 
-si.addEventListener("click", () => {
-  startConfetti();
-  
-  // Hide buttons and show message
-  const cta = document.querySelector('.cta');
-  cta.style.display = 'none';
-  
-  const msgDiv = document.createElement('div');
-  msgDiv.innerHTML = `
-    <h3 class="celebration-title" style="margin-top: 20px;">¡Eres lo mejor!</h3>
-    <p class="celebration-text">Prometo hacer de cada día un recuerdo bonito a tu lado. Te amo infinitamente ❤️</p>
-    <button id="btn-recuerdos-inline" class="btn secondary" style="margin-top: 10px;">Ver nuestros momentos</button>
-  `;
-  cta.parentNode.insertBefore(msgDiv, cta.nextSibling);
+const heroSection = document.querySelector(".hero");
 
-  // Add listener to the new button
-  document.getElementById("btn-recuerdos-inline").addEventListener("click", () => {
-    galleryUnlocked = true;
-    gallerySection.classList.remove("hidden");
-    gallerySection.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+si.addEventListener("click", () => {
+  showCelebration();
 });
+
 recuerdos.addEventListener("click", () => {
-  gallerySection.classList.remove("hidden");
-  hideCelebration();
-  gallerySection.scrollIntoView({ behavior: "smooth", block: "start" });
+  // Hide hero section smoothly
+  heroSection.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  heroSection.style.opacity = '0';
+  heroSection.style.transform = 'translateY(-20px)';
+  
+  setTimeout(() => {
+    heroSection.classList.add('hidden');
+    heroSection.style.display = 'none'; // Ensure it's removed from layout
+    
+    gallerySection.classList.remove("hidden");
+    hideCelebration();
+    
+    // Scroll to top to show gallery from beginning
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    
+    playMusic();
+  }, 500);
 });
 
 let dodgeCount = 0;

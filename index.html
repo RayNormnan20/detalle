@@ -21,7 +21,20 @@
         <button id="btn-quizas" class="btn ghost">No ❌</button>
       </div>
       <p id="no-hint" class="hint"></p>
+      <div class="scroll-indicator hidden" id="scroll-hint">
+        <span>👇</span>
+      </div>
     </section>
+
+    <!-- Music Control -->
+    <button id="music-control" class="music-control hidden" aria-label="Controlar música">
+      <span class="music-icon">🎵</span>
+    </button>
+    <audio id="bg-music" loop>
+        <source src="music/song.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
     <section class="gallery-section hidden">
       <h2 class="section-title">📸 Nuestros Momentos Especiales</h2>
       <div class="gallery">
